@@ -1,4 +1,4 @@
-package com.example.practicafundamentoskeepcoding.list
+package com.example.practicafundamentoskeepcoding.list.models
 
 data class CharacterDto(
     val id: String,

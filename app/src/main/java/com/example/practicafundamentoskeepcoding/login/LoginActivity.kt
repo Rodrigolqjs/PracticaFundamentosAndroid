@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
 import com.example.practicafundamentoskeepcoding.databinding.ActivityLoginBinding
-import com.example.practicafundamentoskeepcoding.list.DBCharactersActivity
+import com.example.practicafundamentoskeepcoding.list.dbcharactersactivity.DBCharactersActivity
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding

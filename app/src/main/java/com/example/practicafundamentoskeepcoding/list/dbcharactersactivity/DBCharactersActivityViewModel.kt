@@ -1,36 +1,25 @@
-package com.example.practicafundamentoskeepcoding.list
+package com.example.practicafundamentoskeepcoding.list.dbcharactersactivity
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.practicafundamentoskeepcoding.list.models.Character
+import com.example.practicafundamentoskeepcoding.list.models.CharacterDto
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import okhttp3.*
-import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.IOException
 
 class DBCharactersActivityViewModel: ViewModel() {
 
-    var characters: List<Character> = listOf(
-        Character(
-            id = "",
-            photo = "",
-            favorite = false,
-            name = "",
-            description = "",
-            maxHealth = 100,
-            health = 100
-        )
-    )
+    var characters: MutableList<Character> = mutableListOf()
 
     val dbCharactersLiveDataList: MutableLiveData<DBCharactersActivityState> by lazy {
         MutableLiveData<DBCharactersActivityState>()
     }
 
     fun getCharacters(token: String) {
-        println("este es el token")
-        println(token)
         setValueOnMainThread(DBCharactersActivityState.Loading)
         val client = OkHttpClient()
         val url = "https://dragonball.keepcoding.education/api/heros/all"
@@ -52,22 +41,18 @@ class DBCharactersActivityViewModel: ViewModel() {
                 override fun onResponse(call: Call, response: Response) {
                     try {
                         val bodyResponse = response.body?.string()
-                        println("esta es la body response")
-                        println(bodyResponse)
 
                         val arrayOfCharaters: Array<CharacterDto> = Gson().fromJson(bodyResponse, Array<CharacterDto>::class.java)
                         val listofCharacters = arrayOfCharaters.map {
                             Character(
                                 id = it.id,
                                 photo = it.photo,
-                                favorite = it.favorite,
                                 name = it.name,
-                                description = it.description,
                                 maxHealth = 100,
                                 health = 100
                             )
                         }
-                        characters = listofCharacters
+                        characters.addAll(listofCharacters)
                         setValueOnMainThread(DBCharactersActivityState.Success(listofCharacters))
                     } catch (ex: Exception) {
 
